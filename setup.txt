@@ -1,0 +1,54 @@
+Building auth using:
+
+- Supabase
+- React App
+
+Objectives:
+
+- Login
+- Register
+
+
+Setups:
+
+npm create vite@latest .
+
+npm install
+
+npm install -D tailwindcss@3.4.3
+
+npx tailwindcss init -p
+
+To start:
+npm run dev
+
+npm i react-router-dom
+
+npm install @supabase/supabase-js
+
+
+-----------------------------
+
+Database Password (supabase)
+
+09750828667Wa.
+09750828667Wa.
+
+
+-----------------
+
+how to git push
+
+1. git init
+
+2. git add .
+
+*if first time*
+git config --global user.email "email@email.com"
+git config --global user.name "username"
+
+3. git commit -m "Message"
+
+4.  git remote add origin "link"
+
+5. git push -u origin "branch name"
