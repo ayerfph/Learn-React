@@ -19,11 +19,18 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <h2>Welcome, {session?.user?.email}</h2>
-      <div>
-        <p onClick={handleSignOut} className='cursor-pointer border inline-block px-4 py-3 mt-4'>SignOut</p>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="bg-black shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-4 text-center text-white">Dashboard</h1>
+        <h2 className="text-xl mb-6 text-center text-gray-1000">
+          Welcome, <span className="font-semibold">{session?.user?.email}</span>
+        </h2>
+        <button
+          onClick={handleSignOut}
+          className="w-full bg-warning hover:bg-warning-dark text-white font-semibold py-3 rounded transition duration-200"
+        >
+          Sign Out
+        </button>
       </div>
     </div>
   );
