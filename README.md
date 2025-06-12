@@ -1,12 +1,150 @@
-# React + Vite
+# Supabase React Auth System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite application using **Supabase** for authentication, **Redux Toolkit** for state management, **React Router** for navigation, and **Tailwind CSS** for styling.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Supabase](https://supabase.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [React Router](https://reactrouter.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📁 Project Structure
+
+```plaintext
+src/
+  App.tsx
+  main.tsx
+  router.tsx
+  store.ts
+  supabaseClient.ts
+  context/
+    AuthContext.tsx
+  components/
+    Dashboard.tsx
+    PrivateRoute.tsx
+    Signin.tsx
+    Signup.tsx
+  counter/
+    counterSlice.ts
+  assets/
+  index.css
+```
+
+---
+
+## 🔑 Authentication Flow
+
+### 1. Supabase Client
+
+- **`src/supabaseClient.ts`**  
+  Initializes the Supabase client using environment variables.
+
+### 2. Auth Context
+
+- **`src/context/AuthContext.tsx`**  
+  Provides authentication state and functions via React Context:
+  - `signUpNewUser`
+  - `signInUser`
+  - `signOut`
+  - Tracks current user session and updates on auth state changes.
+
+### 3. Routing
+
+- **`src/router.tsx`**  
+  Defines routes for `/`, `/signup`, `/signin`, `/dashboard`.
+  - `/dashboard` is protected by `PrivateRoute`.
+
+### 4. Protected Routes
+
+- **`src/components/PrivateRoute.tsx`**  
+  Redirects unauthenticated users to `/signup`.
+
+### 5. Auth Pages
+
+- **`src/components/Signup.tsx`**  
+  Sign up form. Redirects to `/dashboard` on success.
+- **`src/components/Signin.tsx`**  
+  Sign in form. Redirects to `/dashboard` on success.
+
+### 6. Dashboard
+
+- **`src/components/Dashboard.tsx`**  
+  Displays the logged-in user's email and a sign out button.
+
+---
+
+## 🗃️ Redux Example
+
+- **`src/counter/counterSlice.ts`**  
+  Example Redux slice for a counter.
+- **`src/store.ts`**  
+  Configures Redux store with the counter reducer.
+
+---
+
+## 🎨 Styling
+
+- **`src/index.css`**  
+  Tailwind CSS for styling.
+
+---
+
+## 🛠️ Getting Started
+
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+
+2. **Set up environment variables:**  
+   Create a `.env` file with your Supabase credentials.
+
+3. **Start the development server:**
+   ```sh
+   npm run dev
+   ```
+
+---
+
+## ➕ Adding Features
+
+- **Add protected pages:**  
+  Wrap them in `<PrivateRoute>` in `router.tsx`.
+- **Expand Redux:**  
+  Add new slices and include them in `store.ts`.
+
+---
+
+## 📄 File References
+
+- [`src/context/AuthContext.tsx`](src/context/AuthContext.tsx)
+- [`src/components/Signup.tsx`](src/components/Signup.tsx)
+- [`src/components/Signin.tsx`](src/components/Signin.tsx)
+- [`src/components/PrivateRoute.tsx`](src/components/PrivateRoute.tsx)
+- [`src/components/Dashboard.tsx`](src/components/Dashboard.tsx)
+- [`src/router.tsx`](src/router.tsx)
+- [`src/store.ts`](src/store.ts)
+- [`src/counter/counterSlice.ts`](src/counter/counterSlice.ts)
+
+---
+
+## 📝 Notes
+
+- **Session Persistence:**  
+  Session is managed in context and updates on auth state changes.
+- **Error Handling:**  
+  Errors are displayed in the UI for sign in/up.
+- **Customization:**  
+  Expand Redux, add routes, or customize UI as needed.
+
+---
+
+**For more details, see the code in each referenced file.**
