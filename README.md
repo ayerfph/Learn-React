@@ -1,99 +1,120 @@
-# Backbone.js Routing Guide
+# Private Routing in React
 
-Backbone.js offers a straightforward way to manage navigation and application state using routers. This guide introduces the essentials of creating and using Backbone routers, with clear examples and best practices.
+This project demonstrates how to implement **private routes** in a React application using [`react-router-dom`](https://reactrouter.com/) and custom hooks for session management.
+
+## ✨ Features
+
+- **PrivateRoute** component to protect routes
+- Simulated session authentication with a custom hook
+- Redirects unauthenticated users to the Home page
+- Loading state while session is being determined
 
 ---
 
-## 🚦 1. What is a Router?
+## 📁 Project Structure
 
-A **Router** maps URLs to functions, enabling single-page application (SPA) navigation without full page reloads.
-
----
-
-## 🛠️ 2. Defining a Router
-
-Extend `Backbone.Router` to define your application's routes and handlers:
-
-```js
-var AppRouter = Backbone.Router.extend({
-    routes: {
-        "": "home",                       // #/
-        "about": "aboutPage",             // #/about
-        "projects/:id": "viewProject"     // #/projects/123
-    },
-
-    home: function() {
-        // Render home view
-    },
-
-    aboutPage: function() {
-        // Render about view
-    },
-
-    viewProject: function(id) {
-        // Render project with given id
-    }
-});
+```
+src/
+  components/
+    PrivateRoute.jsx
+    UseSession.jsx
+  pages/
+    Home.jsx
+    ProjectOne.jsx
+    ProjectTwo.jsx
+    ProjectThree.jsx
+    ProjectFour.jsx
+  App.jsx
+  router.jsx
+  main.jsx
 ```
 
 ---
 
-## 🚀 3. Initializing the Router
+## 🔒 How Private Routing Works
 
-Create an instance of your router and start Backbone history:
+### 1. Session Management
 
-```js
-var router = new AppRouter();
-Backbone.history.start();
+The [`useSession`](src/components/UseSession.jsx) hook simulates checking for an authenticated session:
+
+```jsx
+import { useState, useEffect } from 'react';
+
+const useSession = () => {
+  const [session, setSession] = useState(undefined);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSession(true); // Simulate authentication
+    }, 300);
+  }, []);
+
+  return { session };
+};
+
+export default useSession;
 ```
 
 ---
 
-## 🔗 4. Navigating Programmatically
+### 2. PrivateRoute Component
 
-Use `router.navigate` to change routes in your code:
+The [`PrivateRoute`](src/components/PrivateRoute.jsx) component uses the session state to determine access:
 
-```js
-router.navigate('about', { trigger: true });
-```
+```jsx
+import React from "react";
+import { Navigate } from "react-router-dom";
+import useSession from "./UseSession";
 
-- `trigger: true` calls the route handler immediately.
+const PrivateRoute = ({ children }) => {
+  const { session } = useSession();
 
----
+  if (session === undefined) {
+    return <div>Please Wait...</div>;
+  }
 
-## 🧩 5. Route Parameters
+  return <>{ session ? children : <Navigate to="/Home" /> }</>;
+};
 
-Routes can include parameters (e.g., `:id`). These are passed as arguments to the handler functions.
-
----
-
-## 🌐 6. Hash vs. PushState
-
-By default, Backbone uses hash fragments (`#/route`). To enable clean URLs with HTML5 `pushState`:
-
-```js
-Backbone.history.start({ pushState: true });
+export default PrivateRoute;
 ```
 
 ---
 
-## 📁 7. Example Project Structure
+### 3. Usage in Router
 
-```plaintext
-/js
-    /views
-    /models
-    /routers
-        appRouter.js
-    app.js
-index.html
+In [`router.jsx`](src/router.jsx), wrap protected routes with `PrivateRoute`:
+
+```jsx
+import { createBrowserRouter } from "react-router-dom";
+import App from "./App";
+import ErrorPage from "./components/Error";
+import ProjectOne from "./pages/ProjectOne";
+import PrivateRoute from "./components/PrivateRoute";
+
+export const router = createBrowserRouter([
+  { path: "/", element: <App />, errorElement: <ErrorPage /> },
+  { path: "/ProjectOne", element: <PrivateRoute><ProjectOne /></PrivateRoute> },
+  // ...other routes
+]);
 ```
 
 ---
 
-## 📚 8. Resources
+## 🚀 Getting Started
 
-- [Backbone.js Routing Documentation](https://backbonejs.org/#Router)
-- [Backbone.js Tutorials](https://backbonejs.org/#examples)
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+2. **Run the development server:**
+   ```sh
+   npm run dev
+   ```
 
 ---
+
+## 📚 References
+
+- [React Router Documentation](https://reactrouter.com/)
+- [React Docs](https://react.dev/)
