@@ -1,10 +1,10 @@
 import React from 'react'
 
-const ProjectThree = () => {
+const ProjectThree = ({ onBack }) => {
   return (
     <>
       <div>ProjectThree</div>
-      <button onClick={() => window.location.href = '/'}>Back to Home</button>
+      <button onClick={onBack}>Back to Home</button>
     </>
   )
 }
