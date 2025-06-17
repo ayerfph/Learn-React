@@ -1,99 +1,103 @@
-# Backbone.js Routing Guide
+# React Portfolio Routing Example
 
-Backbone.js offers a straightforward way to manage navigation and application state using routers. This guide introduces the essentials of creating and using Backbone routers, with clear examples and best practices.
-
----
-
-## 🚦 1. What is a Router?
-
-A **Router** maps URLs to functions, enabling single-page application (SPA) navigation without full page reloads.
+This project demonstrates client-side routing in a React application using [React Router v7](https://reactrouter.com/en/main) and [Vite](https://vitejs.dev/).
 
 ---
 
-## 🛠️ 2. Defining a Router
+## 🚀 Getting Started
 
-Extend `Backbone.Router` to define your application's routes and handlers:
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
 
-```js
-var AppRouter = Backbone.Router.extend({
-    routes: {
-        "": "home",                       // #/
-        "about": "aboutPage",             // #/about
-        "projects/:id": "viewProject"     // #/projects/123
-    },
+2. **Run the development server:**
+   ```sh
+   npm run dev
+   ```
 
-    home: function() {
-        // Render home view
-    },
+3. **Open your browser:**  
+   Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
 
-    aboutPage: function() {
-        // Render about view
-    },
+---
 
-    viewProject: function(id) {
-        // Render project with given id
-    }
-});
+## 🗂️ Project Structure
+
+```
+src/
+  main.jsx         # Entry point, sets up RouterProvider
+  router.jsx       # Routing configuration
+  App.jsx          # Main app component
+  pages/
+    Home.jsx
+    ProjectOne.jsx
+    ProjectTwo.jsx
+    ProjectThree.jsx
+    ProjectFour.jsx
 ```
 
 ---
 
-## 🚀 3. Initializing the Router
+## 🛣️ How Routing is Set Up
 
-Create an instance of your router and start Backbone history:
+Routing is managed in [`src/router.jsx`](src/router.jsx):
 
-```js
-var router = new AppRouter();
-Backbone.history.start();
+- Uses `createBrowserRouter` from `react-router-dom`.
+- Each route maps a path (e.g., `/ProjectOne`) to a React component.
+
+Example from [`src/router.jsx`](src/router.jsx):
+
+```jsx
+import { createBrowserRouter } from "react-router-dom";
+import App from "./App";
+import ProjectOne from "./pages/ProjectOne";
+import ProjectTwo from "./pages/ProjectTwo";
+import ProjectThree from "./pages/ProjectThree";
+import ProjectFour from "./pages/ProjectFour";
+import Home from "./pages/Home";
+
+export const router = createBrowserRouter([
+    { path: "/", element: <App /> },
+    { path: "/ProjectOne", element: <ProjectOne /> },
+    { path: "/ProjectTwo", element: <ProjectTwo /> },
+    { path: "/ProjectThree", element: <ProjectThree /> },
+    { path: "/ProjectFour", element: <ProjectFour /> },
+    { path: "/Home", element: <Home /> },
+]);
+```
+
+The router is provided to your app in [`src/main.jsx`](src/main.jsx):
+
+```jsx
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router.jsx';
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>,
+);
 ```
 
 ---
 
-## 🔗 4. Navigating Programmatically
+## 🏠 Navigation
 
-Use `router.navigate` to change routes in your code:
+- The Home page (`/`) provides buttons to navigate to each project page.
+- Each project page includes a "Back to Home" button.
 
-```js
-router.navigate('about', { trigger: true });
-```
+Example from [`src/pages/Home.jsx`](src/pages/Home.jsx):
 
-- `trigger: true` calls the route handler immediately.
-
----
-
-## 🧩 5. Route Parameters
-
-Routes can include parameters (e.g., `:id`). These are passed as arguments to the handler functions.
-
----
-
-## 🌐 6. Hash vs. PushState
-
-By default, Backbone uses hash fragments (`#/route`). To enable clean URLs with HTML5 `pushState`:
-
-```js
-Backbone.history.start({ pushState: true });
+```jsx
+<button onClick={() => window.location.href = '/ProjectOne'}>
+  Go to Project One
+</button>
 ```
 
 ---
 
-## 📁 7. Example Project Structure
+## 📚 Resources
 
-```plaintext
-/js
-    /views
-    /models
-    /routers
-        appRouter.js
-    app.js
-index.html
-```
-
----
-
-## 📚 8. Resources
-
-- [Backbone.js Routing Documentation](https://backbonejs.org/#Router)
-- [Backbone.js Tutorials](https://backbonejs.org/#examples)
-
----
+- [React Router Documentation](https://reactrouter.com/en/main)
